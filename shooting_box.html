@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <style>
+            canvas {
+	                border: 1px solid #d3d3d3;
+	                background-color: black;
+	                }
+        </style>
+    </head>
+
+    <body onload="startgame()">
+        <script>
+
+            var redbox, bluebox;
+
+            function startgame()
+            {
+                bluebox = new component(50, 50, "blue", 350, 450);
+                redbox = new component(50, 50, "red", 350, 0);
+                gamecanvas.start();
+            }
+
+            var gamecanvas = {
+                canvas : document.createElement("canvas"),
+                start : function() {
+                    this.canvas.width = 750;
+                    this.canvas.height = 500;
+                    this.context = this.canvas.getContext("2d");
+                    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+                    this.interval = setInterval(updateGameArea, 20);
+                    },
+            clear : function() {
+                    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    },
+            stop : function() {
+                    clearInterval(this.interval);
+                    }
+                }
+
+            function component(w, h, c, x, y) {
+                this.w = w;
+                this.h = h;
+                this.x = x;
+                this.y = y;
+                this.update = function() {
+                    ctx = gamecanvas.context;
+                    ctx.fillStyle = c;
+                    ctx.fillRect(this.x, this.y, this.w, this.h);
+                    }
+                this.crashWith = function(obj) {
+                        var boxbottom = this.y + (this.height);
+                        var objtop = obj.y;
+                        if (boxbottom != objtop) {
+                            crash = false;
+                        }
+                        return crash;
+                    }
+                }
+
+            function updateGameArea() {
+                if (bluebox.crashWith(redbox)) {
+                    gamecanvas.stop();
+                } else {
+                    gamecanvas.clear();
+                    redbox.y += 1;
+                    redbox.update();
+                    bluebox.update();
+                    }
+                }
+
+        </script>
+
+    </body>
+</html>
