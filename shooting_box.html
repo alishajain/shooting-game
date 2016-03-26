@@ -53,9 +53,11 @@
 
             function crashWith(bbox, rbox) {
                         var bboxtop = bbox.y;
-                        var rboxbottom = rbox.y +(rbox.height);
-                        if (rboxbottom != bboxtop) {
+                        var rboxbottom = rbox.y + (rbox.h);
+                        if (rboxbottom < bboxtop) {
                             crash = false;
+                        } else {
+                            crash = true;
                         }
                         return crash;
                     }
