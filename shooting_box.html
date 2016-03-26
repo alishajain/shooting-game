@@ -63,15 +63,9 @@
                     }
 
             function updateGameArea() {
-//                gamecanvas.clear();
-//                redbox.y += 1;
-//                redbox.update();
-//                bluebox.update();
                 if (crashWith(bluebox, redbox)) {
                     gamecanvas.stop();
-//                    gamecanvas.clear();
-//                    redbox.y += 1;
-//                    redbox.update();
+                    window.alert("GAME OVER");
                 } else {
                     gamecanvas.clear();
                     redbox.y += 1;
