@@ -49,19 +49,27 @@
                     ctx.fillStyle = c;
                     ctx.fillRect(this.x, this.y, this.w, this.h);
                     }
-                this.crashWith = function(obj) {
-                        var boxbottom = this.y + (this.height);
-                        var objtop = obj.y;
-                        if (boxbottom != objtop) {
+                }
+
+            function crashWith(bbox, rbox) {
+                        var bboxtop = bbox.y;
+                        var rboxbottom = rbox.y +(rbox.height);
+                        if (rboxbottom != bboxtop) {
                             crash = false;
                         }
                         return crash;
                     }
-                }
 
             function updateGameArea() {
-                if (bluebox.crashWith(redbox)) {
+//                gamecanvas.clear();
+//                redbox.y += 1;
+//                redbox.update();
+//                bluebox.update();
+                if (crashWith(bluebox, redbox)) {
                     gamecanvas.stop();
+//                    gamecanvas.clear();
+//                    redbox.y += 1;
+//                    redbox.update();
                 } else {
                     gamecanvas.clear();
                     redbox.y += 1;
