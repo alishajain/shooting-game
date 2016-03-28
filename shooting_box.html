@@ -13,12 +13,13 @@
     <body onload="startgame()">
         <script>
 
-            var redbox, bluebox;
+            var redbox, bluebox, bullet;
 
             function startgame()
             {
                 bluebox = new component(50, 50, "blue", 350, 450);
                 redbox = new component(50, 50, "red", 350, 0);
+                bullet = new component(5, 5, "yellow", 372, 445);
                 gamecanvas.start();
             }
 
@@ -49,12 +50,16 @@
                     ctx.fillStyle = c;
                     ctx.fillRect(this.x, this.y, this.w, this.h);
                     }
+                    this.newpos = function() {
+                        this.x += this.speedX;
+                        this.y += this.speedY;
+                    }
                 }
 
             function crashWith(bbox, rbox) {
-                        var bboxtop = bbox.y;
+                        var btop = bbox.y;
                         var rboxbottom = rbox.y + (rbox.h);
-                        if (rboxbottom < bboxtop) {
+                        if (rboxbottom < btop) {
                             crash = false;
                         } else {
                             crash = true;
@@ -62,15 +67,45 @@
                         return crash;
                     }
 
+            function updatebboxpos() {
+                bluebox.speedX = 0;
+//                bullet.speedY = 0;
+                if (gamecanvas.key && gamecanvas.key == 37)
+                {   bluebox.speedX = -1;    }
+                if (gamecanvas.key && gamecanvas.key == 39)
+                {   bluebox.speedX = +1;    }
+//                if (gamecanvas.key && gamecanvas.key == 32)
+//                {   bullet.speedY += 1;     }
+            }
+
+            function updatebulletpos() {
+                bullet.speedY = 0;
+                if (gamecanvas.key && gamecanvas.key == 32)
+                {   bullet.speedY += 1;  }
+            }
+
             function updateGameArea() {
-                if (crashWith(bluebox, redbox)) {
-                    gamecanvas.stop();
-                    window.alert("GAME OVER");
-                } else {
+//                gamecanvas.updatebboxpos();
+//                bluebox.newpos();
+//                gamecanvas.updatebulletpos();
+//                bullet.newpos();
+                if (crashWith(bullet, redbox)) {
                     gamecanvas.clear();
-                    redbox.y += 1;
-                    redbox.update();
                     bluebox.update();
+                    bullet.update();
+                } else if (crashWith(bluebox, redbox)) {
+                        gamecanvas.stop();
+                        window.alert("GAME OVER");
+                    } else {
+                        gamecanvas.clear();
+                        redbox.y += 1;
+                        redbox.update();
+                    //    gamecanvas.updatebboxpos();
+                    //    bluebox.newpos();
+                        bluebox.update();
+                    //    gamecanvas.updatebulletpos();
+                    //    bullet.newpos();
+                        bullet.update();
                     }
                 }
 
