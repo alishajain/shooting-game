@@ -19,7 +19,7 @@
             {
                 bluebox = new component(50, 50, "blue", 350, 450);
                 redbox = new component(50, 50, "red", 350, 0);
-                bullet = new component(5, 5, "yellow", 372, 445);
+                bullet = new component(5, 5, "yellow", 372, 450);
                 gamecanvas.start();
             }
 
@@ -31,6 +31,13 @@
                     this.context = this.canvas.getContext("2d");
                     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
                     this.interval = setInterval(updateGameArea, 20);
+                    window.addEventListener('keydown', function (e) {
+                        gamecanvas.key = true;
+                        gamecanvas.key = e.keyCode;
+                        })
+                    window.addEventListener('keyup', function (e) {
+                        gamecanvas.key = false;
+                        })
                     },
             clear : function() {
                     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -69,13 +76,19 @@
 
             function updatebboxpos() {
                 bluebox.speedX = 0;
-//                bullet.speedY = 0;
+                bullet.speedX = 0;
                 if (gamecanvas.key && gamecanvas.key == 37)
-                {   bluebox.speedX = -1;    }
+                {
+                    bluebox.speedX = -1;
+                    bullet.speedX = -1;
+                }
                 if (gamecanvas.key && gamecanvas.key == 39)
-                {   bluebox.speedX = +1;    }
-//                if (gamecanvas.key && gamecanvas.key == 32)
-//                {   bullet.speedY += 1;     }
+                {
+                    bluebox.speedX = +1;
+                    bullet.speedX = +1;
+                }
+                bluebox.newpos();
+                bullet.newpos();
             }
 
             function updatebulletpos() {
@@ -85,28 +98,34 @@
             }
 
             function updateGameArea() {
+                gamecanvas.clear();
+                bullet.speedY = 0;
+                if (gamecanvas.key && gamecanvas.key == 32)
+                {   bullet.speedY += 1;  }
 //                gamecanvas.updatebboxpos();
-//                bluebox.newpos();
 //                gamecanvas.updatebulletpos();
-//                bullet.newpos();
-                if (crashWith(bullet, redbox)) {
-                    gamecanvas.clear();
-                    bluebox.update();
-                    bullet.update();
-                } else if (crashWith(bluebox, redbox)) {
-                        gamecanvas.stop();
-                        window.alert("GAME OVER");
-                    } else {
-                        gamecanvas.clear();
-                        redbox.y += 1;
-                        redbox.update();
-                    //    gamecanvas.updatebboxpos();
-                    //    bluebox.newpos();
-                        bluebox.update();
-                    //    gamecanvas.updatebulletpos();
-                    //    bullet.newpos();
-                        bullet.update();
-                    }
+//                bluebox.newpos();
+                bullet.newpos();
+                bluebox.update();
+                bullet.update();
+//                if (crashWith(bullet, redbox)) {
+//                    gamecanvas.clear();
+//                    bluebox.update();
+//                    bullet.update();
+//                } else if (crashWith(bluebox, redbox)) {
+//                        gamecanvas.stop();
+//                        window.alert("GAME OVER");
+//                    } else {
+//                        gamecanvas.clear();
+//                        redbox.y += 1;
+//                        redbox.update();
+//                        gamecanvas.updatebboxpos();
+//                        bluebox.newpos();
+//                        bluebox.update();
+//                        gamecanvas.updatebulletpos();
+//                        bullet.newpos();
+//                        bullet.update();
+//                    }
                 }
 
         </script>
