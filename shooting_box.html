@@ -91,40 +91,35 @@
                     bluebox.speedX = +1;
                     bullet.speedX = +1;
                 }
-                bluebox.newpos();
-                bullet.newpos();
             }
 
             function updatebulletpos() {
                 bullet.speedY = 0;
                 if (gamecanvas.key && gamecanvas.key == 32)
-                {   bullet.speedY -= 1;  }
+                {  
+                    if(bullet.y != 0)  
+                    {   bullet.speedY -= 1;     }
+                }
             }
 
             function updateGameArea() {
-                gamecanvas.clear();
-                updatebboxpos();
-                updatebulletpos();
-                bluebox.update();
-                bullet.update();
-//                if (crashWith(bullet, redbox)) {
-//                    gamecanvas.clear();
-//                    bluebox.update();
-//                    bullet.update();
-//                } else if (crashWith(bluebox, redbox)) {
-//                        gamecanvas.stop();
-//                        window.alert("GAME OVER");
-//                    } else {
-//                        gamecanvas.clear();
-//                        redbox.y += 1;
-//                        redbox.update();
-//                        gamecanvas.updatebboxpos();
-//                        bluebox.newpos();
-//                        bluebox.update();
-//                        gamecanvas.updatebulletpos();
-//                        bullet.newpos();
-//                        bullet.update();
-//                    }
+                if (crashWith(bullet, redbox)) {
+                    gamecanvas.clear();
+                    bluebox.update();
+                } else if (crashWith(bluebox, redbox)) {
+                        gamecanvas.stop();
+                        window.alert("GAME OVER");
+                    } else {
+                        gamecanvas.clear();
+                        redbox.y += 1;
+                        redbox.update();
+                        updatebboxpos();
+                        updatebulletpos();
+                        bluebox.newpos();
+                        bluebox.update();
+                        bullet.newpos();
+                        bullet.update();
+                    }
                 }
 
         </script>
