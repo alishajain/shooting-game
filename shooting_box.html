@@ -32,24 +32,28 @@
                     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
                     this.interval = setInterval(updateGameArea, 20);
                     window.addEventListener('keydown', function (e) {
-                        gamecanvas.key = true;
                         gamecanvas.key = e.keyCode;
                         })
                     window.addEventListener('keyup', function (e) {
                         gamecanvas.key = false;
                         })
                     },
+
             clear : function() {
                     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
                     },
+
             stop : function() {
                     clearInterval(this.interval);
                     }
                 }
 
             function component(w, h, c, x, y) {
+                this.gamearea = gamecanvas;
                 this.w = w;
                 this.h = h;
+                this.speedX = 0;
+                this.speedY = 0;
                 this.x = x;
                 this.y = y;
                 this.update = function() {
@@ -94,18 +98,13 @@
             function updatebulletpos() {
                 bullet.speedY = 0;
                 if (gamecanvas.key && gamecanvas.key == 32)
-                {   bullet.speedY += 1;  }
+                {   bullet.speedY -= 1;  }
             }
 
             function updateGameArea() {
                 gamecanvas.clear();
-                bullet.speedY = 0;
-                if (gamecanvas.key && gamecanvas.key == 32)
-                {   bullet.speedY += 1;  }
-//                gamecanvas.updatebboxpos();
-//                gamecanvas.updatebulletpos();
-//                bluebox.newpos();
-                bullet.newpos();
+                updatebboxpos();
+                updatebulletpos();
                 bluebox.update();
                 bullet.update();
 //                if (crashWith(bullet, redbox)) {
